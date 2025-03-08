@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express();
 
-app.get("/api/:username", (req, res) => {
+app.get("/:username", (req, res) => {
     console.log(req);
 
 
