@@ -2,9 +2,7 @@ const express = require("express")
 const cors = require("cors");
 const app = express();
 
-app.use(cors({
-    origin: ["https://penpen-uwu.github.io/", "https://mc-skin-to-cr-skin-api.vercel.app/"]
-}));
+app.use(cors());
 
 app.get("/api/:username", (req, res) => {
     fetch(`https://api.mojang.com/users/profiles/minecraft/${req.params.username}`).then((uuidResponse) => {
