@@ -2,8 +2,7 @@ const express = require("express")
 const app = express();
 
 app.get("/api/:username", (req, res) => {
-    console.log(req);
-
+    console.log(req.headers.origin);
 
     fetch(`https://api.mojang.com/users/profiles/minecraft/${req.params.username}`).then((uuidResponse) => {
         uuidResponse.json().then((uuidData) => {
