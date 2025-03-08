@@ -1,21 +1,18 @@
-// import type { VercelRequest, VercelResponse } from '@vercel/node'
-
-// export default function handler(req: VercelRequest, res: VercelResponse) {
-//   const { name = 'World' } = req.query
-//   return res.json({
-//     message: `Hello ${name}!`,
-//   })
-// }
-
 const express = require("express")
 const app = express();
 
 app.get("/:username", (req, res) => {
     console.log(req);
 
+
     fetch(`https://api.mojang.com/users/profiles/minecraft/${req.params.username}`).then((uuidResponse) => {
         uuidResponse.json().then((uuidData) => {
             fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuidData.id}`).then((profileResponse) => {
+                if (!profileResponse.ok) {
+                    res.status(404);
+                    res.send({ error: "Player doesn't exist" });
+                    return;
+                };
                 profileResponse.json().then((profileData) => {
                     profileDataDecoded = JSON.parse(Buffer.from(profileData.properties[0].value, "base64").toString());
 
@@ -32,6 +29,7 @@ app.get("/:username", (req, res) => {
             });
         });
     });
+
 });
 
 app.listen(3000, () => {
