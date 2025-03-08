@@ -1,5 +1,8 @@
 const express = require("express")
+const cors = require("cors");
 const app = express();
+
+app.use(cors());
 
 app.get("/api/:username", (req, res) => {
     fetch(`https://api.mojang.com/users/profiles/minecraft/${req.params.username}`).then((uuidResponse) => {
