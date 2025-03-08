@@ -2,11 +2,6 @@ const express = require("express")
 const app = express();
 
 app.get("/api/:username", (req, res) => {
-    if (req.headers.origin !== "https://penpen-uwu.github.io") {
-        res.status(403).send({ error: "Origin not allowed" });
-        return;
-    }
-
     fetch(`https://api.mojang.com/users/profiles/minecraft/${req.params.username}`).then((uuidResponse) => {
         uuidResponse.json().then((uuidData) => {
             fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuidData.id}`).then((profileResponse) => {
