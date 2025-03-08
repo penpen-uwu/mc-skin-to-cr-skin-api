@@ -2,8 +2,6 @@ const express = require("express")
 const app = express();
 
 app.get("/api/:username", (req, res) => {
-    console.log(req.headers.origin);
-
     fetch(`https://api.mojang.com/users/profiles/minecraft/${req.params.username}`).then((uuidResponse) => {
         uuidResponse.json().then((uuidData) => {
             fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuidData.id}`).then((profileResponse) => {
@@ -20,7 +18,8 @@ app.get("/api/:username", (req, res) => {
                             imageDataURL = `data:image/png;base64,${Buffer.from(skinBuffer).toString('base64')}`;
                             res.send({
                                 pixelsToSub: profileDataDecoded.textures.SKIN.metadata?.model == "slim" ? "1" : "0",
-                                image: imageDataURL
+                                image: imageDataURL,
+                                origin: req.headers.origin
                             });
                         });
                     });
